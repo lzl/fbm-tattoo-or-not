@@ -23,6 +23,20 @@ app.get("/photo", async (req, res) => {
   }
 });
 
+app.post("/photo", async (req, res) => {
+  try {
+    const {
+      body: { path, type },
+    } = req;
+    await fs.ensureFile(`./assets/doing/${path}`);
+    await fs.ensureDir(`./assets/done/${type}`);
+    await fs.move(`./assets/doing/${path}`, `./assets/done/${type}/${path}`);
+    res.status(200).json({ ok: true });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 app.use("/", (_, res) => {
   res.status(200).json({ ok: true });
 });
