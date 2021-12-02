@@ -11,7 +11,8 @@ import React from "react";
 
 const queryClient = new QueryClient();
 
-const API_URL = "http://localhost:8000";
+// const API_URL = "http://localhost:8000";
+const API_URL = "http://10.10.4.182:8000";
 
 const getPhoto = async () => {
   const response = await axios.get(`${API_URL}/photo`);
