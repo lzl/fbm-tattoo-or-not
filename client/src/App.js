@@ -7,6 +7,7 @@ import {
 } from "react-query";
 import axios from "axios";
 import "./App.css";
+import React from "react";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,21 @@ const postPhoto = async (data) => {
   const response = await axios.post(`${API_URL}/photo`, data);
   return response.data;
 };
+
+function useEffectCancelPhoto(path) {
+  const cancel = React.useCallback(() => {
+    axios.post(`${API_URL}/photo/cancel`, { path });
+  }, [path]);
+
+  React.useEffect(() => {
+    window.addEventListener("beforeunload", cancel);
+    return () => {
+      window.removeEventListener("beforeunload", cancel);
+    };
+  }, [cancel]);
+
+  return null;
+}
 
 function Photo({ isLoading, path }) {
   if (isLoading) return <div className="mt-2">loading</div>;
@@ -97,6 +113,8 @@ function Main() {
   const { isLoading, isError, data, error } = useQuery("photo", getPhoto, {
     refetchOnWindowFocus: false,
   });
+
+  useEffectCancelPhoto(data?.path);
 
   if (isError) {
     return (
