@@ -19,7 +19,7 @@ app.get("/photo", async (_, res) => {
       await fs.move(`./assets/todo/${path}`, `./assets/doing/${path}`);
       res.status(200).json({ ok: true, path });
     } else {
-      res.status(200).json({ ok: false, message: "全部已标记" });
+      res.status(200).json({ ok: false, message: "已全部标注 🎉" });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
