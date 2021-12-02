@@ -16,8 +16,10 @@ app.get("/photo", async (req, res) => {
     if (path) {
       await fs.ensureFile(`./assets/todo/${path}`);
       await fs.move(`./assets/todo/${path}`, `./assets/doing/${path}`);
+      res.status(200).json({ ok: true, path });
+    } else {
+      res.status(200).json({ ok: false, message: "全部已标记" });
     }
-    res.status(200).json({ ok: true, path });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
