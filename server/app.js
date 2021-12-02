@@ -14,7 +14,7 @@ app.get("/photo", async (_, res) => {
   try {
     const paths = await fs.readdir("./assets/todo");
     const path = paths?.[0];
-    if (path) {
+    if (path && path !== "undefined") {
       await fs.ensureFile(`./assets/todo/${path}`);
       await fs.move(`./assets/todo/${path}`, `./assets/doing/${path}`);
       res.status(200).json({ ok: true, path });
