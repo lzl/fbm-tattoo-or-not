@@ -26,7 +26,7 @@ const postPhoto = async (data) => {
 
 function useEffectCancelPhoto(path) {
   const cancel = React.useCallback(() => {
-    axios.post(`${API_URL}/photo/cancel`, { path });
+    if (path) axios.post(`${API_URL}/photo/cancel`, { path });
   }, [path]);
 
   React.useEffect(() => {
