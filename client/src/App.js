@@ -39,11 +39,14 @@ function useEffectCancelPhoto(path) {
   return null;
 }
 
-function Photo({ isLoading, path }) {
+function Photo({ isLoading, path, total }) {
   if (isLoading) return <div className="mt-2">loading</div>;
 
   return (
-    <img className="mt-2" alt="" src={`${API_URL}/assets/doing/${path}`} />
+    <div>
+      <div className="mt-2">剩余: {total}</div>
+      <img className="mt-2" alt="无法显示" src={`${API_URL}/assets/doing/${path}`} />
+    </div>
   );
 }
 
@@ -136,7 +139,7 @@ function Main() {
   return (
     <div className="container">
       <Actions isFetching={isLoading} path={data?.path} />
-      <Photo isLoading={isLoading} path={data?.path} />
+      <Photo isLoading={isLoading} path={data?.path} total={data?.total} />
     </div>
   );
 }

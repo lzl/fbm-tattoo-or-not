@@ -13,11 +13,12 @@ app.use("/assets", express.static(path.join(__dirname, "assets")));
 app.get("/photo", async (_, res) => {
   try {
     const paths = await fs.readdir("./assets/todo");
+    const total = paths?.length;
     const path = paths?.[0];
-    if (path && path !== "undefined") {
+    if (total !== 0 && path && path !== "undefined") {
       await fs.ensureFile(`./assets/todo/${path}`);
       await fs.move(`./assets/todo/${path}`, `./assets/doing/${path}`);
-      res.status(200).json({ ok: true, path });
+      res.status(200).json({ ok: true, path, total });
     } else {
       res.status(200).json({ ok: false, message: "已全部标注 🎉" });
     }
